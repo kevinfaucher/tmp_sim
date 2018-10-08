@@ -546,7 +546,7 @@ class SteeringBehavior {
 	private Vector2D Cohesion(final List<Vehicle> neighbors) {
 		// first find the center of mass of all the agents
 		Random rand = new Random();
-		int n = rand.nextInt(2) + 1;
+		int n = rand.nextInt(100) + 1;
 		Vector2D CenterOfMass = new Vector2D(), SteeringForce = new Vector2D();
 
 		int NeighborCount = 0;
@@ -559,7 +559,8 @@ class SteeringBehavior {
 			if ((neighbors.get(a) != m_pVehicle) && neighbors.get(a).IsTagged()
 					&& (neighbors.get(a) != m_pTargetAgent1)) {
 				CenterOfMass.add(neighbors.get(a).Pos());
-				CenterOfMass.div((double) (NeighborCount % (a+1)) + 2);
+				CenterOfMass.div((double) (a+1));
+				//CenterOfMass.div((double) (NeighborCount % (a+1)) + 2);
 				++NeighborCount;
 			}
 		} 
@@ -569,6 +570,7 @@ class SteeringBehavior {
 			// CenterOfMass.div((double) NeighborCount);
 
 			// now seek towards that position
+			CenterOfMass.mul((double) (n));
 			SteeringForce = Seek(CenterOfMass);	
 		}
 
